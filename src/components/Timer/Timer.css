@@ -1,0 +1,17 @@
+.time {
+  display: inline-block;
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.time::after {
+  position: relative;
+  bottom: 3px;
+  padding: 0 5px;
+  content: ":";
+  font-size: 24px;
+}
+
+.time:last-child::after {
+  display: none;
+}
