@@ -7,8 +7,7 @@ import './Stopwatch.css';
 export function Stopwatch() {
   const [time, setTime] = useState(0);
   const [isActive, setIsActive] = useState(false);
-
-  const delay = 200;
+  const [isDoubleClick, setDoubleClick] = useState(false);
 
   useEffect(() => {
     let interval = null;
@@ -27,6 +26,7 @@ export function Stopwatch() {
 
   const handleStart = () => {
     setIsActive(true);
+    setDoubleClick(false);
   }
 
   const handleStop = () => {
@@ -34,10 +34,23 @@ export function Stopwatch() {
     setTime(0);
   }
 
+  let delay;
+
   const onDoubleClickHandler = () => {
+    setDoubleClick(true);
+    let secondClick;
+
     setTimeout(() => {
-      setIsActive(false);
+      secondClick = time / 10000;
+      if(isDoubleClick && secondClick < 0.300) {
+        setIsActive(false);
+      }
     }, delay);
+
+    setTimeout(() => {
+      secondClick = 0;
+      setDoubleClick(false);
+    }, 3000)
   };
 
   const handleReset = () => {
@@ -51,11 +64,9 @@ export function Stopwatch() {
 
   return (
     <>
-      <div>
+      <div className='timer'>
           <Timer time={time / 3.6e+6} />
-          {/* <span>:</span> */}
           <Timer time={time / 60000} />
-          {/* <span>:</span> */}
           <Timer time={time / 1000} />
       </div>
       <div>
