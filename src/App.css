@@ -4,4 +4,18 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  background-color: whitesmoke;
+}
+
+.container {
+  width: fit-content;
+  padding: 26px;
+
+  background-color: white;
+  border: 1px solid lightslategrey;
+}
+
+.title {
+  text-align: center;
 }

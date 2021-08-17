@@ -6,9 +6,11 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-      <h1 className="title">React Stopwatch</h1>
-      <Stopwatch />
-    </div>
+        <div className="container">
+          <h1 className="title">React Stopwatch</h1>
+          <Stopwatch />
+        </div>
+      </div>
     )
   }
 }
