@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Timer from '../Timer';
 import Button from '../Button';
 
+import { interval, Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
+
 import './Stopwatch.css';
 
 export function Stopwatch() {
@@ -10,17 +13,20 @@ export function Stopwatch() {
   const [isDoubleClick, setDoubleClick] = useState(false);
 
   useEffect(() => {
-    let interval = null;
+    const unsubscribe = new Subject();
 
-    if (isActive) {
-      interval = setInterval(() => {
-        setTime(prevTime => prevTime + 10)
-      }, 10)
-    } else {
-      clearInterval(interval)
+    interval(10)
+      .pipe(takeUntil(unsubscribe))
+      .subscribe(() => {
+        if (isActive) {
+          setTime(prevTime => prevTime + 10);
+        }
+      });
+
+    return () => {
+      unsubscribe.next();
+      unsubscribe.complete();
     }
-
-    return () => clearInterval(interval)
 
   }, [isActive])
 
@@ -42,7 +48,7 @@ export function Stopwatch() {
 
     setTimeout(() => {
       secondClick = time / 10000;
-      if(isDoubleClick && secondClick < 0.300) {
+      if(isDoubleClick && secondClick < 0.3) {
         setIsActive(false);
       }
     }, delay);
@@ -65,9 +71,9 @@ export function Stopwatch() {
   return (
     <>
       <div className='timer'>
-          <Timer time={time / 3.6e+6} />
-          <Timer time={time / 60000} />
-          <Timer time={time / 1000} />
+        <Timer time={time / 3.6e+6} />
+        <Timer time={time / 60000} />
+        <Timer time={time / 1000} />
       </div>
       <div>
         <Button

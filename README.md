@@ -18,6 +18,7 @@ The stopwatch has the following buttons:
 
 - Node v14.17.0
 - NPM 6.14.13
+- RxJS 7.3.0
 
 4. Installing
 
